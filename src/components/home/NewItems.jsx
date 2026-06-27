@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import CountdownTimer from "../UI/CountdownTimer";
 import Skeleton from "../UI/Skeleton";
+import useMinimumLoading from "../UI/useMinimumLoading";
 
 const NewItems = () => {
   const [newItems, setNewItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const displayLoading = useMinimumLoading(loading, 700);
 
   useEffect(() => {
     async function fetchNewItems() {
@@ -29,7 +31,7 @@ const NewItems = () => {
               <div className="small-border bg-color-2"></div>
             </div>
           </div>
-          {loading
+          {displayLoading
             ? new Array(4).fill(0).map((_, index) => (
                 <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={index}>
                   <div className="nft__item">

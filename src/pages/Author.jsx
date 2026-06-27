@@ -3,11 +3,13 @@ import AuthorBanner from "../images/author_banner.jpg";
 import AuthorItems from "../components/author/AuthorItems";
 import { Link, useParams } from "react-router-dom";
 import Skeleton from "../components/UI/Skeleton";
+import useMinimumLoading from "../components/UI/useMinimumLoading";
 
 const Author = () => {
   const { authorId } = useParams();
   const [author, setAuthor] = useState(null);
   const [loading, setLoading] = useState(true);
+  const displayLoading = useMinimumLoading(loading, 700);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -45,7 +47,7 @@ const Author = () => {
                 <div className="d_profile de-flex">
                   <div className="de-flex-col">
                     <div className="profile_avatar">
-                      {loading ? (
+                      {displayLoading ? (
                         <Skeleton width="150px" height="150px" borderRadius="50%" />
                       ) : (
                         <img src={author.authorImage} alt="" />
@@ -53,16 +55,16 @@ const Author = () => {
                       <i className="fa fa-check"></i>
                       <div className="profile_name">
                         <h4>
-                          {loading ? (
+                          {displayLoading ? (
                             <Skeleton width="150px" height="24px" borderRadius="4px" />
                           ) : (
                             author.authorName
                           )}
                           <span className="profile_username">
-                            @{loading ? "..." : author.tag}
+                            @{displayLoading ? "..." : author.tag}
                           </span>
                           <span id="wallet" className="profile_wallet">
-                            {loading ? "..." : author.address}
+                            {displayLoading ? "..." : author.address}
                           </span>
                           <button id="btn_copy" title="Copy Text">
                             Copy
@@ -74,7 +76,7 @@ const Author = () => {
                   <div className="profile_follow de-flex">
                     <div className="de-flex-col">
                       <div className="profile_follower">
-                        {loading ? "..." : author.followers} followers
+                        {displayLoading ? "..." : author.followers} followers
                       </div>
                       <Link to="#" className="btn-main">
                         Follow
@@ -87,8 +89,8 @@ const Author = () => {
               <div className="col-md-12">
                 <div className="de_tab tab_simple">
                   <AuthorItems
-                    nftCollection={loading ? [] : author.nftCollection}
-                    loading={loading}
+                    nftCollection={displayLoading ? [] : author.nftCollection}
+                    loading={displayLoading}
                   />
                 </div>
               </div>

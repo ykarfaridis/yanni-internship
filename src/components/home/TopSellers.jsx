@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Skeleton from "../UI/Skeleton";
+import useMinimumLoading from "../UI/useMinimumLoading";
 
 const TopSellers = () => {
   const [sellers, setSellers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const displayLoading = useMinimumLoading(loading, 700);
 
   useEffect(() => {
     async function fetchTopSellers() {
@@ -30,7 +32,7 @@ const TopSellers = () => {
           </div>
           <div className="col-md-12">
             <ol className="author_list">
-              {loading
+              {displayLoading
                 ? new Array(12).fill(0).map((_, index) => (
                     <li key={index}>
                       <div className="author_list_pp">

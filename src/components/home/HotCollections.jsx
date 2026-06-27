@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Skeleton from "../UI/Skeleton";
+import useMinimumLoading from "../UI/useMinimumLoading";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -34,6 +35,7 @@ const NextArrow = ({ className, onClick }) => {
 const HotCollections = () => {
   const [collections, setCollections] = useState([]);
   const [loading, setLoading] = useState(true);
+  const displayLoading = useMinimumLoading(loading, 700);
 
   const sliderSettings = {
     dots: false,
@@ -90,7 +92,7 @@ const HotCollections = () => {
           </div>
           <div className="col-lg-12">
             <Slider {...sliderSettings}>
-              {loading
+              {displayLoading
                 ? new Array(4).fill(0).map((_, index) => (
                     <div key={index} style={{ padding: "0 12px" }}>
                       <div className="nft_coll">

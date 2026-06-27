@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import EthImage from "../images/ethereum.svg";
 import { Link, useParams } from "react-router-dom";
 import Skeleton from "../components/UI/Skeleton";
+import useMinimumLoading from "../components/UI/useMinimumLoading";
 
 const ItemDetails = () => {
   const { nftId } = useParams();
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
+  const displayLoading = useMinimumLoading(loading, 700);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -32,7 +34,7 @@ const ItemDetails = () => {
           <div className="container">
             <div className="row">
               <div className="col-md-6 text-center">
-                {loading ? (
+                {displayLoading ? (
                   <Skeleton width="100%" height="400px" borderRadius="8px" />
                 ) : (
                   <img
@@ -44,7 +46,7 @@ const ItemDetails = () => {
               </div>
               <div className="col-md-6">
                 <div className="item_info">
-                  {loading ? (
+                  {displayLoading ? (
                     <Skeleton width="60%" height="36px" borderRadius="4px" />
                   ) : (
                     <h2>{item.title}</h2>
@@ -53,14 +55,14 @@ const ItemDetails = () => {
                   <div className="item_info_counts">
                     <div className="item_info_views">
                       <i className="fa fa-eye"></i>
-                      {loading ? "..." : item.views}
+                      {displayLoading ? "..." : item.views}
                     </div>
                     <div className="item_info_like">
                       <i className="fa fa-heart"></i>
-                      {loading ? "..." : item.likes}
+                      {displayLoading ? "..." : item.likes}
                     </div>
                   </div>
-                  {loading ? (
+                  {displayLoading ? (
                     <Skeleton width="100%" height="60px" borderRadius="4px" />
                   ) : (
                     <p>{item.description}</p>
@@ -70,7 +72,7 @@ const ItemDetails = () => {
                       <h6>Owner</h6>
                       <div className="item_author">
                         <div className="author_list_pp">
-                          {loading ? (
+                          {displayLoading ? (
                             <Skeleton width="50px" height="50px" borderRadius="50%" />
                           ) : (
                             <Link to={`/author/${item.ownerId}`}>
@@ -80,7 +82,7 @@ const ItemDetails = () => {
                           )}
                         </div>
                         <div className="author_list_info">
-                          {loading ? (
+                          {displayLoading ? (
                             <Skeleton width="80px" height="20px" borderRadius="4px" />
                           ) : (
                             <Link to={`/author/${item.ownerId}`}>{item.ownerName}</Link>
@@ -95,7 +97,7 @@ const ItemDetails = () => {
                       <h6>Creator</h6>
                       <div className="item_author">
                         <div className="author_list_pp">
-                          {loading ? (
+                          {displayLoading ? (
                             <Skeleton width="50px" height="50px" borderRadius="50%" />
                           ) : (
                             <Link to={`/author/${item.creatorId}`}>
@@ -105,7 +107,7 @@ const ItemDetails = () => {
                           )}
                         </div>
                         <div className="author_list_info">
-                          {loading ? (
+                          {displayLoading ? (
                             <Skeleton width="80px" height="20px" borderRadius="4px" />
                           ) : (
                             <Link to={`/author/${item.creatorId}`}>{item.creatorName}</Link>
@@ -117,7 +119,7 @@ const ItemDetails = () => {
                     <h6>Price</h6>
                     <div className="nft-item-price">
                       <img src={EthImage} alt="" />
-                      <span>{loading ? "..." : item.price}</span>
+                      <span>{displayLoading ? "..." : item.price}</span>
                     </div>
                   </div>
                 </div>

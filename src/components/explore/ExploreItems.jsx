@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import CountdownTimer from "../UI/CountdownTimer";
 import Skeleton from "../UI/Skeleton";
+import useMinimumLoading from "../UI/useMinimumLoading";
 
 const ExploreItems = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("");
   const [visibleCount, setVisibleCount] = useState(8);
+  const displayLoading = useMinimumLoading(loading, 700);
 
   useEffect(() => {
     setLoading(true);
@@ -38,7 +40,7 @@ const ExploreItems = () => {
           <option value="likes_high_to_low">Most liked</option>
         </select>
       </div>
-      {loading
+      {displayLoading
         ? new Array(8).fill(0).map((_, index) => (
             <div
               key={index}
@@ -113,7 +115,7 @@ const ExploreItems = () => {
               </div>
             </div>
           ))}
-      {!loading && visibleCount < items.length && (
+      {!displayLoading && visibleCount < items.length && (
         <div className="col-md-12 text-center">
           <button
             onClick={() => setVisibleCount((prev) => prev + 4)}
