@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AuthorBanner from "../images/author_banner.jpg";
 import AuthorItems from "../components/author/AuthorItems";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Skeleton from "../components/UI/Skeleton";
 import useMinimumLoading from "../components/UI/useMinimumLoading";
 
@@ -9,7 +9,11 @@ const Author = () => {
   const { authorId } = useParams();
   const [author, setAuthor] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [followerCount, setFollowerCount] = useState(0);
   const displayLoading = useMinimumLoading(loading, 700);
+
+  const followStorageKey = `follow-author-${authorId}`;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -21,11 +25,38 @@ const Author = () => {
         `https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?author=${authorId}`
       );
       const data = await response.json();
+      let savedFollowState = false;
+
+      try {
+        savedFollowState = localStorage.getItem(followStorageKey) === "true";
+      } catch (error) {
+        savedFollowState = false;
+      }
+
       setAuthor(data);
+      setIsFollowing(savedFollowState);
+      setFollowerCount(data.followers + (savedFollowState ? 1 : 0));
       setLoading(false);
     }
+
     fetchAuthor();
-  }, [authorId]);
+  }, [authorId, followStorageKey]);
+
+  const handleFollowToggle = () => {
+    if (!author) {
+      return;
+    }
+
+    const nextFollowState = !isFollowing;
+    setIsFollowing(nextFollowState);
+    setFollowerCount(Number(author.followers) + (nextFollowState ? 1 : 0));
+
+    try {
+      localStorage.setItem(followStorageKey, String(nextFollowState));
+    } catch (error) {
+      // Ignore storage write issues and keep local UI responsive.
+    }
+  };
 
   return (
     <div id="wrapper">
@@ -76,11 +107,16 @@ const Author = () => {
                   <div className="profile_follow de-flex">
                     <div className="de-flex-col">
                       <div className="profile_follower">
-                        {displayLoading ? "..." : author.followers} followers
+                        {displayLoading ? "..." : followerCount} followers
                       </div>
-                      <Link to="#" className="btn-main">
-                        Follow
-                      </Link>
+                      <button
+                        type="button"
+                        className="btn-main"
+                        onClick={handleFollowToggle}
+                        disabled={displayLoading}
+                      >
+                        {isFollowing ? "Unfollow" : "Follow"}
+                      </button>
                     </div>
                   </div>
                 </div>
