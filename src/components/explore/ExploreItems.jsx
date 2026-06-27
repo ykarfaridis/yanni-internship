@@ -28,7 +28,7 @@ const ExploreItems = () => {
 
   return (
     <>
-      <div>
+      <div data-aos="fade-up">
         <select
           id="filter-items"
           defaultValue=""
@@ -45,6 +45,8 @@ const ExploreItems = () => {
             <div
               key={index}
               className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12"
+              data-aos="fade-up"
+              data-aos-delay={(index % 4) * 60}
               style={{ display: "block", backgroundSize: "cover" }}
             >
               <div className="nft__item">
@@ -61,10 +63,12 @@ const ExploreItems = () => {
               </div>
             </div>
           ))
-        : items.slice(0, visibleCount).map((item) => (
+        : items.slice(0, visibleCount).map((item, index) => (
             <div
               key={item.id}
               className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12"
+              data-aos="fade-up"
+              data-aos-delay={(index % 4) * 60}
               style={{ display: "block", backgroundSize: "cover" }}
             >
               <div className="nft__item">
@@ -121,6 +125,7 @@ const ExploreItems = () => {
             onClick={() => setVisibleCount((prev) => prev + 4)}
             id="loadmore"
             className="btn-main lead"
+            data-aos="fade-up"
           >
             Load more
           </button>

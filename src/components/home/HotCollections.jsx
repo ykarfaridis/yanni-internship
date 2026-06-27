@@ -81,16 +81,16 @@ const HotCollections = () => {
   }, []);
 
   return (
-    <section id="section-collections" className="no-bottom">
+    <section id="section-collections" className="no-bottom" data-aos="fade-up">
       <div className="container">
         <div className="row">
-          <div className="col-lg-12">
+          <div className="col-lg-12" data-aos="fade-up">
             <div className="text-center">
               <h2>Hot Collections</h2>
               <div className="small-border bg-color-2"></div>
             </div>
           </div>
-          <div className="col-lg-12">
+          <div className="col-lg-12" data-aos="fade-up" data-aos-delay="100">
             <Slider {...sliderSettings}>
               {displayLoading
                 ? new Array(4).fill(0).map((_, index) => (
